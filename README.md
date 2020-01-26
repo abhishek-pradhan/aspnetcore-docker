@@ -7,8 +7,13 @@ Shows 2 options on how to use Dockerfile in a sample ASP.NET Core 2.1 web app
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
+* Docker Desktop CE (I used for Windows)
+* Visual Studio Code (v1.41.1)
+* Visual Studio CE (2017)
 
-Since I wanted to create Windows container, I switched Docker desktop to Windows container. However, I think you can use Linux container too.
+Note: Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
+
+Since I wanted to create Windows container, I switched Docker desktop to Windows container. However, if you want to use linux containers too, it works too. Only difference between Windows & Linux containers is change in Dockerfile. I have provided both Linux & Windows dockerfiles. For Linux, use Dockerfile with linux name in it (webapp-linux.Dockerfile or Dockerfile-linux)
 
 ### Tip
 No need to create Dockerfile on your own, you can create Dockerfile by navigating to WebApp folder / or folder where you have your .csproj file & then opening it in VS Code:
@@ -31,14 +36,27 @@ Comment out ClassLibrary1.csproj reference from src/WebApp/WebApp.csproj file & 
 
 (1) Now create Docker image from Dockerfile:
 
-(applicable for Option 1: run below command from folder: aspnetcore-docker\src)
-```
-docker build -t webapp:latest -f WebApp.dockerfile .
-```
+  (applicable for Option 1: run below command from folder: aspnetcore-docker\src)
+  Windows container image:
+  ```
+  docker build -t webapp:latest -f WebApp.dockerfile .
+  ```
+OR
+  Linux container image:
+  ```
+  docker build -t webapp:latest -f WebApp-linux.dockerfile .
+  ```
+
 OR (applicable for Option 2: run below command from folder: aspnetcore-docker\src\WebApp)
-```
-docker build -t webapp:latest .
-```
+  Windows container image:
+  ```
+  docker build -t webapp:latest .
+  ```
+OR
+  Linux container image:
+  ```
+  docker build -t webapp:latest -f Dockerfile-linux .
+  ```
 (1.1) If docker build is successfull, you should see docker image webapp:latest by running
 ```
 docker images
@@ -66,6 +84,15 @@ http://127.0.0.1:8080
 OR
 ```
 http://containerIPAddress
+```
+
+### Tip: Debug
+If you face any issue while creating / building images, use logs or inspect command:
+```
+docker logs <containerID>
+```
+```
+docker inspect <containerID>
 ```
 
 ### Docker commands to cleanup
